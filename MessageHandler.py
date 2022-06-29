@@ -1,5 +1,6 @@
 import random
 import unittest
+import numpy as np
 
 from fuzzywuzzy import process
 from pymorphy2 import MorphAnalyzer
@@ -24,7 +25,7 @@ class UserMessageHandler(MessageHandler):
 
 class GreetingHandler(MessageHandler):
     text = open('hello.txt', 'r', encoding='utf-8').read()
-    greeting_responses = text.split('\n')
+    greeting_responses = np.array(text.split('\n'))
 
     @staticmethod
     def handle(sentence):
