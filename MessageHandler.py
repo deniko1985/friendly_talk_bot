@@ -46,13 +46,6 @@ class DefaultHandler(MessageHandler):
         return ('Я пока не знаю, как ответить')
 
 if __name__ == '__main__':
-
-    def two_method(i):
-            ma = MorphAnalyzer()
-            #list = ['Привет', 'приветствую', 'Здравствуйте']
-            m = ma.parse(i)[0].normal_form
-            sentence = process.extractOne(m, GreetingHandler.greeting_responses)
-            return sentence
     
     class TestCompare (unittest.TestCase):    
         
@@ -67,10 +60,5 @@ if __name__ == '__main__':
             self.assertEqual(GreetingHandler.isGreeting('Здрасте!'), (False))  
             self.assertEqual(GreetingHandler.isGreeting('Здорова!'), (False))
             self.assertEqual(GreetingHandler.isGreeting('здрасте'), (True))  
-
-        def test_two_method(self):
-            self.assertEqual(two_method('Пррривееееееет!'), ('Ееее!', 90))
-            self.assertEqual(two_method('привеутьствовую'), ('Привет!', 75))
-            self.assertEqual(two_method('здрасте'), ('Здравствуй!', 100))
 
     unittest.main()
