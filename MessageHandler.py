@@ -24,7 +24,8 @@ class UserMessageHandler(MessageHandler):
             return DefaultHandler.handle(sentence)            
 
 class GreetingHandler(MessageHandler):
-    text = open('hello.txt', 'r', encoding='utf-8').read()
+    with open('/home/deniko1985/telebot/hello.txt', 'r', encoding='utf-8') as t:
+            text = t.read()
     greeting_responses = np.array(text.split('\n'))
 
     @staticmethod
