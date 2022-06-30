@@ -57,7 +57,7 @@ class GreetingFarewellHandler(MessageHandler):
     
     @staticmethod
     def isGreetingOrFarewell(sentence):
-        return GreetingFarewellHandler.isGreeting(sentence) or GreetingFarewellHandler.isFarewall(sentence)
+        return GreetingFarewellHandler.isGreeting(sentence) or GreetingFarewellHandler.isFarewell(sentence)
 
 class DefaultHandler(MessageHandler):
 
