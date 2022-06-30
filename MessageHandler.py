@@ -33,19 +33,19 @@ class GreetingFarewellHandler(MessageHandler):
     farewell_responses = np.array(text_bye.split('\n'))
 
     @staticmethod
-    def handle(sentence):
-        rand_h = random.randint(0, len(GreetingFarewellHandler.greeting_responses))
-        rand_b = random.randint(0, len(GreetingFarewellHandler.farewell_responses))
+    def handle(sentence):        
         if GreetingFarewellHandler.isGreeting(sentence):
+            rand_h = random.randint(0, len(GreetingFarewellHandler.greeting_responses))
             return GreetingFarewellHandler.greeting_responses[rand_h]
         else:
+            rand_b = random.randint(0, len(GreetingFarewellHandler.farewell_responses))
             return GreetingFarewellHandler.farewell_responses[rand_b]
 
     @staticmethod
     def isGreeting(sentence):
         ma = MorphAnalyzer()
         m = ma.parse(sentence)[0].normal_form
-        phrase = process.extractOne(m, GreetingHandler.greeting_responses)
+        phrase = process.extractOne(m, GreetingFarewellHandler.greeting_responses)
         return phrase[1] >= 90
     
     @staticmethod
@@ -57,10 +57,7 @@ class GreetingFarewellHandler(MessageHandler):
     
     @staticmethod
     def isGreetingOrFarewell(sentence):
-        if GreetingFarewellHandler.isGreeting(sentence):
-            return GreetingFarewellHandler.isGreeting(sentence)
-        else:
-            return GreetingFarewellHandler.isFarewell(sentence)
+        return GreetingFarewellHandler.isGreeting(sentence) or GreetingFarewellHandler.isFarewall(sentence)
 
 class DefaultHandler(MessageHandler):
 
