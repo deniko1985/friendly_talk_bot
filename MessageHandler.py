@@ -24,11 +24,11 @@ class UserMessageHandler(MessageHandler):
             return DefaultHandler.handle(sentence)            
 
 class GreetingFarewellHandler(MessageHandler):
-    with open('/home/deniko1985/telebot/hello.txt', 'r', encoding='utf-8') as t_h:
+    with open('hello.txt', 'r', encoding='utf-8') as t_h:
             text_hello = t_h.read()
     greeting_responses = np.array(text_hello.split('\n'))
     
-    with open('/home/deniko1985/telebot/bye.txt', 'r', encoding='utf-8') as t_b:
+    with open('bye.txt', 'r', encoding='utf-8') as t_b:
             text_bye = t_b.read()
     farewell_responses = np.array(text_bye.split('\n'))
 
