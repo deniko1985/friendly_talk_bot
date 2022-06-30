@@ -1,8 +1,9 @@
 import telebot
+import os
 
 from MessageHandler import UserMessageHandler
 
-bot = telebot.TeleBot("Token")
+bot = telebot.TeleBot(os.environ.get('API_KEY'))
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
