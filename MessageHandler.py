@@ -18,28 +18,46 @@ class UserMessageHandler(MessageHandler):
         
     @staticmethod
     def handle(sentence):
-        if GreetingHandler.isGreeting(sentence):            
+        if GreetingFarewellHandler.isGreetingOrFarewell(sentence):            
             return GreetingHandler.handle(sentence)            
         else:           
             return DefaultHandler.handle(sentence)            
 
-class GreetingHandler(MessageHandler):
-    with open('/home/deniko1985/telebot/hello.txt', 'r', encoding='utf-8') as t:
-            text = t.read()
-    greeting_responses = np.array(text.split('\n'))
+class GreetingFarewellHandler(MessageHandler):
+    with open('hello.txt', 'r', encoding='utf-8') as t_h:
+            text_hello = t_h.read()
+    greeting_responses = np.array(text_hello.split('\n'))
+    
+    with open('bye.txt', 'r', encoding='utf-8') as t_b:
+            text_bye = t_b.read()
+    farewell_responses = np.array(text_bye.split('\n'))
 
     @staticmethod
-    def handle(sentence):
-        r = random.randint(0, len(GreetingHandler.greeting_responses))
-        return GreetingHandler.greeting_responses[r]
+    def handle(sentence):        
+        if GreetingFarewellHandler.isGreeting(sentence):
+            rand_h = random.randint(0, len(GreetingFarewellHandler.greeting_responses))
+            return GreetingFarewellHandler.greeting_responses[rand_h]
+        else:
+            rand_b = random.randint(0, len(GreetingFarewellHandler.farewell_responses))
+            return GreetingFarewellHandler.farewell_responses[rand_b]
 
     @staticmethod
     def isGreeting(sentence):
         ma = MorphAnalyzer()
         m = ma.parse(sentence)[0].normal_form
-        phrase = process.extractOne(m, GreetingHandler.greeting_responses)
+        phrase = process.extractOne(m, GreetingFarewellHandler.greeting_responses)
         return phrase[1] >= 90
-
+    
+    @staticmethod
+    def isFarewell(sentence):
+        ma = MorphAnalyzer()
+        m = ma.parse(sentence)[0].normal_form
+        phrase_b = process.extractOne(m, GreetingFarewellHandler.farewell_responses)
+        return phrase_b[1] >= 90
+    
+    @staticmethod
+    def isGreetingOrFarewell(sentence):
+        return GreetingFarewellHandler.isGreeting(sentence) or GreetingFarewellHandler.isFarewell(sentence)
 
 class DefaultHandler(MessageHandler):
 
