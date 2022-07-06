@@ -5,6 +5,8 @@ import numpy as np
 from fuzzywuzzy import process
 from pymorphy2 import MorphAnalyzer
 
+import config
+
 
 
 
@@ -18,23 +20,23 @@ class UserMessageHandler(MessageHandler):
         
     @staticmethod
     def handle(sentence):
-        if GreetingFarewellHandler.isGreetingOrFarewell(sentence):            
-            return GreetingHandler.handle(sentence)            
+        if GreetingFarewellHandler.is_greeting_or_farewell(sentence):            
+            return GreetingFarewellHandler.handle(sentence)            
         else:           
             return DefaultHandler.handle(sentence)            
 
 class GreetingFarewellHandler(MessageHandler):
-    with open('hello.txt', 'r', encoding='utf-8') as t_h:
+    with open(config.hello, 'r', encoding='utf-8') as t_h:
             text_hello = t_h.read()
     greeting_responses = np.array(text_hello.split('\n'))
     
-    with open('bye.txt', 'r', encoding='utf-8') as t_b:
+    with open(config.bye, 'r', encoding='utf-8') as t_b:
             text_bye = t_b.read()
     farewell_responses = np.array(text_bye.split('\n'))
 
     @staticmethod
     def handle(sentence):        
-        if GreetingFarewellHandler.isGreeting(sentence):
+        if GreetingFarewellHandler.is_greeting(sentence):
             rand_h = random.randint(0, len(GreetingFarewellHandler.greeting_responses))
             return GreetingFarewellHandler.greeting_responses[rand_h]
         else:
@@ -42,22 +44,22 @@ class GreetingFarewellHandler(MessageHandler):
             return GreetingFarewellHandler.farewell_responses[rand_b]
 
     @staticmethod
-    def isGreeting(sentence):
+    def is_greeting(sentence):
         ma = MorphAnalyzer()
         m = ma.parse(sentence)[0].normal_form
         phrase = process.extractOne(m, GreetingFarewellHandler.greeting_responses)
         return phrase[1] >= 90
     
     @staticmethod
-    def isFarewell(sentence):
+    def is_farewell(sentence):
         ma = MorphAnalyzer()
         m = ma.parse(sentence)[0].normal_form
         phrase_b = process.extractOne(m, GreetingFarewellHandler.farewell_responses)
         return phrase_b[1] >= 90
     
     @staticmethod
-    def isGreetingOrFarewell(sentence):
-        return GreetingFarewellHandler.isGreeting(sentence) or GreetingFarewellHandler.isFarewell(sentence)
+    def is_greeting_or_farewell(sentence):
+        return GreetingFarewellHandler.is_greeting(sentence) or GreetingFarewellHandler.is_farewell(sentence)
 
 class DefaultHandler(MessageHandler):
 
@@ -70,15 +72,15 @@ if __name__ == '__main__':
     class TestCompare (unittest.TestCase):    
         
         def test_positive(self):
-            self.assertEqual(GreetingHandler.isGreeting('Привет!'), (True))  
-            self.assertEqual(GreetingHandler.isGreeting('Приветствую'), (True))
-            self.assertEqual(GreetingHandler.isGreeting('Здравствуй'), (True))  
+            self.assertEqual(GreetingFarewellHandler.is_greeting('Привет!'), (True))  
+            self.assertEqual(GreetingFarewellHandler.is_greeting('Приветствую'), (True))
+            self.assertEqual(GreetingFarewellHandler.is_greeting('Здравствуй'), (True))  
 
         def test_negative(self):                    
-            self.assertEqual(GreetingHandler.isGreeting('Пррривееееееет!'), (True))  
-            self.assertEqual(GreetingHandler.isGreeting('привеутьствовую'), (False))
-            self.assertEqual(GreetingHandler.isGreeting('Здрасте!'), (False))  
-            self.assertEqual(GreetingHandler.isGreeting('Здорова!'), (False))
-            self.assertEqual(GreetingHandler.isGreeting('здрасте'), (True))  
+            self.assertEqual(GreetingFarewellHandler.is_greeting('Пррривееееееет!'), (True))  
+            self.assertEqual(GreetingFarewellHandler.is_greeting('привеутьствовую'), (False))
+            self.assertEqual(GreetingFarewellHandler.is_greeting('Здрасте!'), (False))  
+            self.assertEqual(GreetingFarewellHandler.is_greeting('Здорова!'), (False))
+            self.assertEqual(GreetingFarewellHandler.is_greeting('здрасте'), (True))  
 
     unittest.main()
