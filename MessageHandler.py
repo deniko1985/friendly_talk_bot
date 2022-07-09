@@ -6,7 +6,6 @@ from fuzzywuzzy import process
 from pymorphy2 import MorphAnalyzer
 
 import config
-#from answer import response
 
 
 
@@ -34,10 +33,6 @@ class GreetingFarewellHandler(MessageHandler):
     with open(config.bye, 'r', encoding='utf-8') as t:
             text_bye = t.read().lower()
     farewell_responses = np.array(text_bye.split('\n'))
-
-#    with open(config.answer, 'r', encoding='utf-8') as t:
-#            text_answer = t.read()
-#    answer_responses = np.array(text_answer.split('\n'))
 
     @staticmethod
     def handle(sentence):        
@@ -70,7 +65,6 @@ class DefaultHandler(MessageHandler):
 
     @staticmethod
     def handle(sentence):        
-        #return response(sentence)
         return ('Я пока не знаю, как ответить')
 
 if __name__ == '__main__':
