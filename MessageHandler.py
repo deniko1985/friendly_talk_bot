@@ -26,12 +26,12 @@ class UserMessageHandler(MessageHandler):
             return DefaultHandler.handle(sentence)            
 
 class GreetingFarewellHandler(MessageHandler):
-    with open(config.hello, 'r', encoding='utf-8') as t_h:
-            text_hello = t_h.read()
+    with open(config.hello, 'r', encoding='utf-8') as t:
+            text_hello = t.read().lower()
     greeting_responses = np.array(text_hello.split('\n'))
     
-    with open(config.bye, 'r', encoding='utf-8') as t_b:
-            text_bye = t_b.read()
+    with open(config.bye, 'r', encoding='utf-8') as t:
+            text_bye = t.read().lower()
     farewell_responses = np.array(text_bye.split('\n'))
 
     @staticmethod
@@ -64,7 +64,7 @@ class GreetingFarewellHandler(MessageHandler):
 class DefaultHandler(MessageHandler):
 
     @staticmethod
-    def handle(sentence):
+    def handle(sentence):        
         return ('Я пока не знаю, как ответить')
 
 if __name__ == '__main__':
