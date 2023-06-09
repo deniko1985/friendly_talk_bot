@@ -3,5 +3,5 @@ teleram_bot @friendly_talk_bot
 Планируется реализовать обработку естественного языка.
 
 Chancelog:
-v.0.x - бот на pyTelegramBot
-v.1.x - переход на aiogram 3.x, poetry
+<br>v.0.x - бот на pyTelegramBot
+<br>v.1.x - переход на aiogram 3.x, poetry
